@@ -1,0 +1,21 @@
+{
+  "dataset": "toy",
+  "model": "gemini-2.5-flash",
+  "n_nodes": 4,
+  "n_true_edges": 3,
+  "n_pred_edges": 3,
+  "f1": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 3.0,
+    "fp": 0.0,
+    "fn": 0.0
+  },
+  "shd": 0,
+  "llm_calls": 5,
+  "cache_hits": 0,
+  "edges_added": 3,
+  "edges_skipped_cycle": 0,
+  "edges_skipped_dup": 0
+}

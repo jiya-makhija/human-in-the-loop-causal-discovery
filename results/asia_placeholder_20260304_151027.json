@@ -1,0 +1,116 @@
+{
+  "dataset": "asia_placeholder",
+  "model": "gemini-2.5-flash",
+  "n_nodes": 7,
+  "n_true_edges": 8,
+  "n_pred_edges": 11,
+  "pred_edges": [
+    [
+      "Bronchitis",
+      "Dyspnea"
+    ],
+    [
+      "Bronchitis",
+      "XRay"
+    ],
+    [
+      "LungCancer",
+      "Bronchitis"
+    ],
+    [
+      "LungCancer",
+      "Dyspnea"
+    ],
+    [
+      "LungCancer",
+      "XRay"
+    ],
+    [
+      "Smoking",
+      "Bronchitis"
+    ],
+    [
+      "Smoking",
+      "Dyspnea"
+    ],
+    [
+      "Smoking",
+      "LungCancer"
+    ],
+    [
+      "Tuberculosis",
+      "Dyspnea"
+    ],
+    [
+      "Tuberculosis",
+      "XRay"
+    ],
+    [
+      "VisitAsia",
+      "Tuberculosis"
+    ]
+  ],
+  "true_edges": [
+    [
+      "Bronchitis",
+      "Dyspnea"
+    ],
+    [
+      "LungCancer",
+      "Dyspnea"
+    ],
+    [
+      "LungCancer",
+      "XRay"
+    ],
+    [
+      "Smoking",
+      "Bronchitis"
+    ],
+    [
+      "Smoking",
+      "LungCancer"
+    ],
+    [
+      "Tuberculosis",
+      "Dyspnea"
+    ],
+    [
+      "Tuberculosis",
+      "XRay"
+    ],
+    [
+      "VisitAsia",
+      "Tuberculosis"
+    ]
+  ],
+  "fp_edges": [
+    [
+      "Bronchitis",
+      "XRay"
+    ],
+    [
+      "LungCancer",
+      "Bronchitis"
+    ],
+    [
+      "Smoking",
+      "Dyspnea"
+    ]
+  ],
+  "fn_edges": [],
+  "f1": {
+    "precision": 0.7272727272727273,
+    "recall": 1.0,
+    "f1": 0.8421052631578948,
+    "tp": 8.0,
+    "fp": 3.0,
+    "fn": 0.0
+  },
+  "shd": 3,
+  "llm_calls": 0,
+  "cache_hits": 8,
+  "edges_added": 11,
+  "edges_skipped_cycle": 0,
+  "edges_skipped_dup": 0
+}

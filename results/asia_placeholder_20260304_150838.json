@@ -1,0 +1,21 @@
+{
+  "dataset": "asia_placeholder",
+  "model": "gemini-2.5-flash",
+  "n_nodes": 7,
+  "n_true_edges": 8,
+  "n_pred_edges": 11,
+  "f1": {
+    "precision": 0.7272727272727273,
+    "recall": 1.0,
+    "f1": 0.8421052631578948,
+    "tp": 8.0,
+    "fp": 3.0,
+    "fn": 0.0
+  },
+  "shd": 3,
+  "llm_calls": 1,
+  "cache_hits": 7,
+  "edges_added": 11,
+  "edges_skipped_cycle": 0,
+  "edges_skipped_dup": 0
+}
