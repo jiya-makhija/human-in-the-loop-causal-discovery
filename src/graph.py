@@ -1,6 +1,5 @@
 from collections import defaultdict, deque
-from typing import Iterable, Set, Tuple, Dict, List
-
+from typing import Dict, Iterable, List, Set, Tuple
 
 Edge = Tuple[str, str]
 
@@ -8,7 +7,7 @@ Edge = Tuple[str, str]
 class DiGraph:
     """
     Simple directed graph for causal edges.
-    We keep both an edge set and adjacency list for fast checks.
+    Provides cycle check to enforce DAG constraint.
     """
 
     def __init__(self, nodes: Iterable[str]):
@@ -17,7 +16,7 @@ class DiGraph:
         self._edges: Set[Edge] = set()
 
     def add_edge(self, u: str, v: str) -> None:
-        """Add directed edge u -> v (assumes you already checked validity)."""
+        """Add edge u -> v."""
         self._adj[u].add(v)
         self._edges.add((u, v))
 
@@ -29,13 +28,11 @@ class DiGraph:
 
     def would_create_cycle(self, u: str, v: str) -> bool:
         """
-        Check if adding u -> v would create a cycle.
-        This happens if v can already reach u in the current graph.
+        Adding u -> v creates a cycle if v can already reach u.
         """
         if u == v:
             return True
 
-        # BFS from v to see if we can reach u
         q = deque([v])
         seen = {v}
 
