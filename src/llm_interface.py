@@ -144,7 +144,9 @@ class GeminiLLM:
                 delay = min(60.0, 2.0 * (attempt + 1))
 
             # add buffer so we clear the rate-limit window
+            print(f"[rate-limit] sleeping {delay + 1.0:.1f}s")
             time.sleep(delay + 1.0)
+            
 
         for attempt in range(retries):
             try:
