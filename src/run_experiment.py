@@ -11,11 +11,14 @@ from .llm_interface import GeminiLLM
 from .logger import RunLogger
 from .metrics import edge_f1, shd_directed
 
-
 load_dotenv()
 
 
 def run_one(dataset: Dict, model: str = "gemini-2.5-flash", verbose: bool = True) -> Dict:
+    """
+    Runs one experiment on a dataset using the BFS baseline + LLM.
+    """
+
     llm = GeminiLLM(model=model)
     logger = RunLogger(verbose=verbose)
 
@@ -23,6 +26,7 @@ def run_one(dataset: Dict, model: str = "gemini-2.5-flash", verbose: bool = True
     descriptions = dataset.get("descriptions")
     true_edges = dataset.get("true_edges", set())
 
+    # build graph using BFS + LLM
     G = build_graph_bfs(
         nodes=nodes,
         llm=llm,
@@ -32,12 +36,26 @@ def run_one(dataset: Dict, model: str = "gemini-2.5-flash", verbose: bool = True
 
     pred_edges = G.edges()
 
+    # sets -> sorted lists so we can JSON-save + inspect mistakes
+    pred_edges_set = set(pred_edges)
+    true_edges_set = set(true_edges)
+
+    fp_edges = sorted(list(pred_edges_set - true_edges_set))
+    fn_edges = sorted(list(true_edges_set - pred_edges_set))
+
+    pred_edges_list = sorted(list(pred_edges_set))
+    true_edges_list = sorted(list(true_edges_set))
+
     metrics = {
         "dataset": dataset["name"],
         "model": model,
         "n_nodes": len(nodes),
         "n_true_edges": len(true_edges),
         "n_pred_edges": len(pred_edges),
+        "pred_edges": pred_edges_list,
+        "true_edges": true_edges_list,
+        "fp_edges": fp_edges,
+        "fn_edges": fn_edges,
         "f1": edge_f1(pred_edges, true_edges),
         "shd": shd_directed(pred_edges, true_edges),
         "llm_calls": llm.usage.calls,
@@ -54,21 +72,24 @@ def main() -> None:
     if not os.getenv("GEMINI_API_KEY"):
         raise RuntimeError("Set GEMINI_API_KEY before running.")
 
-    # Choose dataset here
-    dataset = load_toy()
-    # dataset = load_asia_placeholder()
+    # choose dataset
+    # dataset = load_toy()
+    dataset = load_asia_placeholder()
 
     out = run_one(dataset, model="gemini-2.5-flash", verbose=True)
 
     print("\n=== SUMMARY ===")
     print(json.dumps(out, indent=2))
 
-    # Save results
+    # save results
     os.makedirs("results", exist_ok=True)
+
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = f"results/{out['dataset']}_{ts}.json"
+
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
+
     print(f"\nSaved -> {path}")
 
 
