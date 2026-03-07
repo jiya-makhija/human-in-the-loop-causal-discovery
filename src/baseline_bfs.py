@@ -1,5 +1,5 @@
 from collections import deque
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 from .graph import DiGraph
 from .logger import RunLogger
@@ -52,18 +52,6 @@ def build_graph_bfs(
             if G.would_create_cycle(x, y):
                 logger.edges_skipped_cycle += 1
                 logger.log(f"[skip-cycle] {x} -> {y}")
-                continue
-
-            verdict = llm.verify_edge_direct(x, y, nodes, descriptions=descriptions)
-            if not verdict.get("keep", False):
-                meds = verdict.get("mediators", [])
-                reason = verdict.get("reason", "")
-                if meds:
-                    logger.log(f"[skip-indirect] {x} -> {y} (mediators={meds})")
-                else:
-                    logger.log(f"[skip-indirect] {x} -> {y}")
-                # treat as duplicate-style skip for bookkeeping
-                logger.edges_skipped_dup += 1
                 continue
 
             G.add_edge(x, y)
